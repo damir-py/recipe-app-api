@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
-    PermissionsMixin
+    PermissionsMixin,
 )
 
 
@@ -25,10 +25,12 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password):
         """Create and return a new superuser."""
         user = self.create_user(email, password)
-        user.is_stuff = True
+        user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
+
         return user
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     """User in the system."""
@@ -37,6 +39,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    objects = CustomUserManager()
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
