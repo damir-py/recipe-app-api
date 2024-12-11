@@ -2,8 +2,7 @@
 Tests for models.
 """
 from django.test import TestCase
-from django.contrib.auth import get_user_model
-
+from django.contrib.auth import get_user_model, get_user
 
 class ModelTests(TestCase):
     """Test models."""
@@ -23,10 +22,12 @@ class ModelTests(TestCase):
         """Test email is normalized for new users."""
         sample_emails = [
             ['test1@EXAMPLE.com', 'test1@example.com'],
-            ['test2@Example.com', 'Test2@example.com'],
-            ['TEST3@EXAMPLE.COM', 'TEST3@example.com'],
+            ['test2@Example.com', 'test2@example.com'],
+            ['TEST3@EXAMPLE.COM', 'test3@example.com'],
             ['test4@example.COM', 'test4@example.com'],
         ]
-        for email, expacted in sample_emails:
-            user = get_user_model().objects.create(email, 'sample123')
-            self.assertEqual(user.email, expacted)
+        for email, expected in sample_emails:
+            User = get_user_model()
+            user = User.objects.create_user(email=email, password='sample123')
+            self.assertEqual(user.email, expected)
+
