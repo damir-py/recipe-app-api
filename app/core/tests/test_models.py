@@ -2,7 +2,8 @@
 Tests for models.
 """
 from django.test import TestCase
-from django.contrib.auth import get_user_model, get_user
+from django.contrib.auth import get_user_model
+
 
 class ModelTests(TestCase):
     """Test models."""
@@ -11,7 +12,7 @@ class ModelTests(TestCase):
         """Test creating a user with an email is successful."""
         email = 'test@example.com'
         password = 'testpass123'
-        user = get_user_model().objects.create(
+        user = get_user_model().objects.create_user(
             email=email,
             password=password,
         )
@@ -27,7 +28,6 @@ class ModelTests(TestCase):
             ['test4@example.COM', 'test4@example.com'],
         ]
         for email, expected in sample_emails:
-            User = get_user_model()
-            user = User.objects.create_user(email=email, password='sample123')
+            user = get_user_model().objects.create_user(email, 'sample123')
             self.assertEqual(user.email, expected)
 
