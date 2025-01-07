@@ -1,5 +1,5 @@
 """
-Test for the user API
+Tests for the user API.
 """
 from django.test import TestCase
 from django.contrib.auth import get_user_model
@@ -53,8 +53,8 @@ class PublicUserApiTests(TestCase):
         """Test an error is returned if password less than 5 chars."""
         payload = {
             'email': 'test@example.com',
-            'password': 'pass',
-            'name': 'Test Name'
+            'password': 'pw',
+            'name': 'Test name',
         }
         res = self.client.post(CREATE_USER_URL, payload)
 
